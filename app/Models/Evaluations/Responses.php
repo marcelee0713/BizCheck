@@ -15,7 +15,6 @@ class Responses extends Model
         'input',
     ];
 
-
     protected static function booted()
     {
         static::creating(function ($response) {

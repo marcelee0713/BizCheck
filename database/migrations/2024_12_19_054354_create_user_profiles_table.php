@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('target_audience', 255)->nullable();
             $table->string('unique_selling_point', 255)->nullable();
             $table->text('location', 500)->nullable();
-            $table->string('phone_number')->nullable();
+            $table->string('phone_number', 255)->nullable();
             $table->string('website_url', 255)->nullable();
             $table->timestamps();
         });
