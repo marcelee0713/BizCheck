@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\ValidationMessages;
+use App\Helpers\ValidationRules;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
@@ -37,7 +39,7 @@ class NewPasswordController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ValidationRules::password(),
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -62,8 +64,11 @@ class NewPasswordController extends Controller
             return redirect()->route('login')->with('status', __($status));
         }
 
-        throw ValidationException::withMessages([
-            'email' => [trans($status)],
-        ]);
+        return back()->withErrors(['password' => [__($status)]]);
+    }
+
+    public function messages()
+    {
+        return ValidationMessages::password();
     }
 }

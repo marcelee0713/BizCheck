@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public $incrementing = false;
 
     protected $fillable = [
+        'name',
         'email',
         'password',
     ];
