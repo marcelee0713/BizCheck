@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Constants\BusinessModels;
+use App\Constants\Industries;
 
 return new class extends Migration
 {
@@ -18,6 +19,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->string('business_name', 255);
             $table->enum('business_model', BusinessModels::MODELS);
+            $table->enum('industry', Industries::Industries);
             $table->text('description', 5000)->nullable();
             $table->string('target_audience', 255)->nullable();
             $table->string('unique_selling_point', 255)->nullable();

@@ -26,9 +26,9 @@ const toggle = () => {
         <label :for="id" class="font-bold text-sm">{{ label }}</label>
 
         <div class="relative">
-            <input
+            <textarea
                 :type="(type, !isVisible ? type : 'text')"
-                class="outline-none border-2 border-accent bg-transparent py-2 px-3 rounded-md w-full text-sm"
+                class="outline-none border-2 border-accent bg-transparent py-2 px-3 rounded-md w-full text-sm resize-none h-[100px]"
                 v-model="model"
                 ref="input"
                 :id="id"

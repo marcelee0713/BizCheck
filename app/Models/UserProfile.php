@@ -15,6 +15,7 @@ class UserProfile extends Model
     protected $fillable = [
       'business_name',
       'business_model',
+      'industry',
       'description',
       'target_audience',
       'unique_selling_point',

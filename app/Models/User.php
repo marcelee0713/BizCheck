@@ -22,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'name',
         'email',
         'password',
+        'is_first_time',
     ];
 
     protected $hidden = [
@@ -34,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_first_time' => 'boolean',
         ];
     }
 

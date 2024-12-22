@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('social_links', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('profile_id')->reference('id')->on('user_profiles')->onDelete('cascade');
+            $table->foreignUuid('user_profile_id')->constrained()->onDelete('cascade');
             $table->string('platform', 255);
             $table->string('link', 255);
+            $table->timestamps();
         });
     }
 

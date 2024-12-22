@@ -16,16 +16,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/profile', [ProfileController::class, 'create'])->name('profile.create');
+    Route::get('/on-board', [ProfileController::class, 'create'])->name('onboard');
+
+    Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
 
 });
 
 
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+
+
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile-edit', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 require __DIR__.'/auth.php';
