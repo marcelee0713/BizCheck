@@ -5,14 +5,10 @@ import { useForm } from "@inertiajs/vue3";
 import { reactive } from "vue";
 import PrimaryTextArea from "@/Components/PrimaryTextArea.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { isValidUrl } from "@/utils/url-validator";
+import { isValidUrl } from "@/utils";
 import PrimaryDropdown from "@/Features/Profile/PrimaryDropdown.vue";
 import { BUSINESS_MODELS, INDUSTRIES } from "@/constants/global";
-
-interface SocialLinks {
-    platform: string;
-    link: string;
-}
+import { ProfileData, SocialLinks } from "@/types/types";
 
 const socialLinks: SocialLinks[] = reactive([
     {
@@ -33,7 +29,9 @@ const socialLinks: SocialLinks[] = reactive([
     },
 ]);
 
-const form = useForm({
+const textHolder: string = "";
+
+const form = useForm<ProfileData>({
     business_name: "",
     business_model: "",
     industry: "",
@@ -65,9 +63,7 @@ const onSelectIndustries = (i: number) => {
     <Head title="Create Profile" />
 
     <AuthenticatedLayout>
-        <main
-            class="flex flex-col flex-1 gap-5 mx-auto container py-5 max-w-[900px]"
-        >
+        <main class="flex flex-col flex-1 gap-5 mx-auto container py-5">
             <div class="flex flex-col gap-1">
                 <div class="font-bold text-2xl">
                     <span class="font-normal">Welcome</span>

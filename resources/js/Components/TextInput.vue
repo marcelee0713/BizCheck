@@ -2,18 +2,19 @@
 import { ref } from "vue";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/vue/24/solid";
 
-const model = defineModel<string>({ required: true });
+const model = defineModel<string | undefined>();
 
 const isVisible = ref<boolean>(false);
 
 defineProps<{
-    label: string;
-    id: string;
+    label?: string;
+    id?: string;
     err?: string;
     type?: string;
     autofocus?: boolean;
     required?: boolean;
     disabled?: boolean;
+    onChange?: (event: Event) => void;
 }>();
 
 const toggle = () => {
@@ -22,8 +23,10 @@ const toggle = () => {
 </script>
 
 <template>
-    <div class="flex flex-col gap-1 relative text-textColor">
-        <label :for="id" class="font-bold text-sm">{{ label }}</label>
+    <div class="flex flex-col gap-1 relative text-textColor w-full">
+        <label :for="id" class="font-bold text-sm" v-if="label">{{
+            label
+        }}</label>
 
         <div class="relative">
             <input

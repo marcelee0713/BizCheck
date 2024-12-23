@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubmissionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,6 +20,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/on-board', [ProfileController::class, 'create'])->name('onboard');
 
     Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
+
+    Route::get("/submission", [SubmissionController::class, 'create'])->name('submission.create');
 
 });
 

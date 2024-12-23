@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/vue/24/solid";
 
-const model = defineModel<string>({ required: true });
+const model = defineModel<string | undefined>({ required: true });
 
 const isVisible = ref<boolean>(false);
 

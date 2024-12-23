@@ -18,7 +18,7 @@ export const BUSINESS_MODELS: string[] = [
     "Subscription",
     "Access to excess",
     "Blockchain",
-];
+] as const;
 
 export const INDUSTRIES: string[] = [
     "Agriculture",
@@ -75,4 +75,4 @@ export const INDUSTRIES: string[] = [
     "Tourism & Hospitality",
     "Transportation & Logistics",
     "Wholesale Trade",
-];
+] as const;

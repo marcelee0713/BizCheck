@@ -10,6 +10,7 @@ defineProps<{
 
 <template>
     <button
+        @click="onClick"
         class="h-[40px] bg-primary rounded-lg text-secondary font-bold tracking-wide px-3 py-2 transition-all duration-300 ease-out disabled:bg-accent hover:-translate-y-1"
         :class="class"
         :type="type ?? 'button'"
