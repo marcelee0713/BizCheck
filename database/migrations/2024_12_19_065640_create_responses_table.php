@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('responses', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('evaluation_id')->constrained()->onDelete('cascade');
-            $table->enum('sender', ['USER', 'AI']);
+            $table->enum('sender', ['user', 'assistant', 'system']);
             $table->text('message', 12000);
             $table->timestamps();
         });

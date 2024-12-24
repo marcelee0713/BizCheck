@@ -11,6 +11,13 @@ export default {
 
     theme: {
         extend: {
+            typography: (theme) => ({
+                DEFAULT: {
+                    css: {
+                        color: "#FFFFFF",
+                    },
+                },
+            }),
             fontFamily: {
                 montserrat: ["Montserrat", ...defaultTheme.fontFamily.sans],
             },
@@ -24,5 +31,5 @@ export default {
         },
     },
 
-    plugins: [],
+    plugins: [require("@tailwindcss/typography")],
 };

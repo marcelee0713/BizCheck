@@ -12,7 +12,8 @@ class Responses extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'input',
+        'message',
+        'sender'
     ];
 
     protected static function booted()
@@ -26,7 +27,7 @@ class Responses extends Model
 
     public function evaluation()
     {
-        return $this->belongsTo(Evaluations::class);
+        return $this->belongsTo(Evaluations::class, 'evaluation_id');
     }
 
 }

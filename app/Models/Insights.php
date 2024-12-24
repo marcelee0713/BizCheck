@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Objectives extends Model
+class Insights extends Model
 {
     protected $keyType = 'string';
 
@@ -17,15 +17,15 @@ class Objectives extends Model
 
     protected static function booted()
     {
-        static::creating(function ($objective) {
-            if (!$objective->id) {
-                $objective->id = (string) Str::uuid();
+        static::creating(function ($insight) {
+            if (!$insight->id) {
+                $insight->id = (string) Str::uuid();
             }
         });
     }
 
     public function submission()
     {
-        return $this->belongsTo(Submissions::class);
+        return $this->belongsTo(Submissions::class, 'submission_id');
     }
 }

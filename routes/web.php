@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubmissionController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -23,12 +23,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get("/submission", [SubmissionController::class, 'create'])->name('submission.create');
 
+    Route::post("/submission", [SubmissionController::class, 'storeAndEvaluate'])->name('submission.store.evaluate');
+
+    Route::get("/evaluation/{id}", [EvaluationController::class, 'show'])->name('evaluation.chat');
+
+    Route::post('/evaluation/{id}', [EvaluationController::class, 'create'])->name('evaluation.create');
 });
-
-
-
-
-
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile-edit', [ProfileController::class, 'edit'])->name('profile.edit');

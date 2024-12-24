@@ -8,6 +8,7 @@ import DisplayList from "../Partials/DisplayList.vue";
 import DisplayCompetitorList from "../Partials/DisplayCompetitorList.vue";
 import DisplayMetricList from "../Partials/DisplayMetricList.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { router } from "@inertiajs/vue3";
 
 const props = defineProps<{
     profile: ProfileData;
@@ -18,7 +19,9 @@ const props = defineProps<{
 const form = validateForm(props.form.data());
 
 const onClick = () => {
-    console.log(form);
+    router.post(route("submission.store.evaluate"), {
+        ...form,
+    });
 };
 </script>
 

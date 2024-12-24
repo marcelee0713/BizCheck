@@ -32,31 +32,31 @@ class Submissions extends Model
 
     public function objectives()
     {
-        return $this->hasMany(Objectives::class);
+        return $this->hasMany(Objectives::class, 'submission_id');
     }
 
     public function metrics()
     {
-        return $this->hasMany(Metrics::class);
+        return $this->hasMany(Metrics::class, 'submission_id');
     }
 
     public function insights()
     {
-        return $this->hasMany(Insights::class);
+        return $this->hasMany(Insights::class, 'submission_id');
     }
 
     public function competitors()
     {
-        return $this->hasMany(Competitors::class);
+        return $this->hasMany(Competitors::class, 'submission_id');
     }
 
     public function challenges()
     {
-        return $this->hasMany(Challenges::class);
+        return $this->hasMany(Challenges::class, 'submission_id');
     }
 
     public function evaluations()
     {
-        return $this->belongsTo(Evaluations::class);
+        return $this->belongsTo(Evaluations::class, 'submission_id');
     }
 }

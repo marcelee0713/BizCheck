@@ -11,6 +11,8 @@ class Evaluations extends Model
 
     public $incrementing = false;
 
+    protected $fillable = ['submission_id'];
+
     protected static function booted()
     {
         static::creating(function ($evaluation) {
@@ -27,11 +29,11 @@ class Evaluations extends Model
 
     public function submission()
     {
-        return $this->belongsTo(Submissions::class);
+        return $this->belongsTo(Submissions::class, 'submission_id');
     }
 
     public function responses()
     {
-        return $this->hasMany(Responses::class);
+        return $this->hasMany(Responses::class, 'evaluation_id');
     }
 }
