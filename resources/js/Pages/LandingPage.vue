@@ -1,73 +1,96 @@
 <script setup>
-import { benefits } from '@/constants/benefits'
-import NavigationBar from '@/components/NavigationBar.vue'
-import BenefitCard from '@/components/BenefitCard.vue'
-import KeyFeaturesSection from '@/components/KeyFeaturesSection.vue'
+import BenefitCard from "@/Components/BenefitCard.vue";
+import KeyFeaturesSection from "@/Components/KeyFeaturesSection.vue";
+import NavigationBar from "@/Components/NavigationBar.vue";
+import { benefits } from "@/constants/benefits";
 
 const handleGetStarted = () => {
-  // Handle get started action
-}
+    // Handle get started action
+};
 
 const handleTryNow = () => {
-  // Handle try now action
-}
+    // Handle try now action
+};
 </script>
 
 <template>
-  <div>
-    <NavigationBar @get-started="handleGetStarted" />
-    <!-- First Page Section -->
-    <div class="landing-page min-h-screen flex flex-col items-center justify-center bg-[#19191C] text-yellow-400">
-      <div class="container mx-auto flex flex-col md:flex-row lg:flex-row items-center space-y-8 md:space-y-0 md:space-x-8 px-4">
-        <div class="text-content md:w-1/2 lg:w-1/2 text-center md:text-left">
-          <h1 class="text-5xl font-bold mb-4 font-montserrat">
-            <span class="text-primary-yellow">BIZ</span>
-            <span class="text-white">CHECK</span><br />
-            <span class="text-white">AI-Powered Business Insights</span>
-          </h1>
-          <p class="text-lg mb-6 text-white font-montserrat">
-            Optimize your business strategies and grow efficiently with actionable, AI-powered insights.
-          </p>
-          <button 
-            @click="handleTryNow"
-            class="bg-[#FFC82C] text-black px-6 py-3 rounded-lg font-montserrat hover:bg-yellow-500 transition-all duration-300"
-          >
-            Try BizCheck Now
-          </button>
-        </div>
+    <div>
+        <NavigationBar @get-started="handleGetStarted" />
+        <!-- First Page Section -->
+        <div
+            class="landing-page min-h-screen flex flex-col items-center justify-center bg-[#19191C] text-yellow-400"
+        >
+            <div
+                class="container mx-auto flex flex-col md:flex-row lg:flex-row items-center space-y-8 md:space-y-0 md:space-x-8 px-4"
+            >
+                <div
+                    class="text-content md:w-1/2 lg:w-1/2 text-center md:text-left"
+                >
+                    <h1 class="text-5xl font-bold mb-4 font-montserrat">
+                        <span class="text-primary-yellow">BIZ</span>
+                        <span class="text-white">CHECK</span><br />
+                        <span class="text-white"
+                            >AI-Powered Business Insights</span
+                        >
+                    </h1>
+                    <p class="text-lg mb-6 text-white font-montserrat">
+                        Optimize your business strategies and grow efficiently
+                        with actionable, AI-powered insights.
+                    </p>
+                    <button
+                        @click="handleTryNow"
+                        class="bg-[#FFC82C] text-black px-6 py-3 rounded-lg font-montserrat hover:bg-yellow-500 transition-all duration-300"
+                    >
+                        Try BizCheck Now
+                    </button>
+                </div>
 
-        <div class="image-content md:w-1/2 lg:w-1/2 flex justify-center">
-          <picture>
-            <source srcset="/assets/landingpage.png" type="image/webp">
-            <img 
-              :src="'/assets/landingpage.png'" 
-              alt="BizCheck Illustration" 
-              class="w-full max-w-sm"
-              loading="lazy"
-            />
-          </picture>
+                <div
+                    class="image-content md:w-1/2 lg:w-1/2 flex justify-center"
+                >
+                    <picture>
+                        <source
+                            srcset="/assets/landingpage.png"
+                            type="image/webp"
+                        />
+                        <img
+                            :src="'/assets/landingpage.png'"
+                            alt="BizCheck Illustration"
+                            class="w-full max-w-sm"
+                            loading="lazy"
+                        />
+                    </picture>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-- Benefits Section -->
-    <div class="min-h-screen bg-[#1E1E23] flex items-center justify-center p-8">
-      <div class="w-full max-w-6xl text-center space-y-8">
-        <h1 class="text-[FFC72E] text-4xl font-bold font-montserrat">Benefits</h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-          <BenefitCard 
-            :title="benefits.boomTech.title"
-            :items="benefits.boomTech.items"
-          />
-          <BenefitCard 
-            :title="benefits.partners.title"
-            :items="benefits.partners.items"
-          />
+        <!-- Benefits Section -->
+        <div
+            class="min-h-screen bg-[#1E1E23] flex items-center justify-center p-8"
+        >
+            <div class="w-full max-w-6xl text-center space-y-8">
+                <h1 class="text-[FFC72E] text-4xl font-bold font-montserrat">
+                    Benefits
+                </h1>
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"
+                >
+                    <BenefitCard
+                        :title="benefits.boomTech.title"
+                        :items="benefits.boomTech.items"
+                    />
+                    <BenefitCard
+                        :title="benefits.partners.title"
+                        :items="benefits.partners.items"
+                    />
+                </div>
+            </div>
         </div>
-      </div>
+        <KeyFeaturesSection />
+        <footer
+            class="bg-[#1E1E23] text-white py-4 text-center font-montserrat text-sm"
+        >
+            All rights reserved. © 2024 BIZCHECK.
+            <a href="#" class="text-primary-yellow">Privacy Policy.</a>
+        </footer>
     </div>
-    <KeyFeaturesSection />
-    <footer class="bg-[#1E1E23] text-white py-4 text-center font-montserrat text-sm">
-      All rights reserved. © 2024 BIZCHECK. <a href="#" class="text-primary-yellow">Privacy Policy.</a>
-    </footer>
-  </div>
 </template>
