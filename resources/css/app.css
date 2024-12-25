@@ -2,6 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Landing Page Styles */
+:root {
+    --primary-yellow: #FFC82C;
+    --bg-dark: #19191C;
+    --text-white: #FFFFFF;
+  }
+  
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+  }
+  
+  h1, p, button {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  nav {
+    background-color: var(--bg-dark);
+  }
+  
+  .text-primary-yellow {
+    color: var(--primary-yellow);
+  }
+  
+  .text-white {
+    color: var(--text-white);
+  }
+  
+  button {
+    transition: background-color 0.3s ease;
+  }
+
 @font-face {
     font-family: "Montserrat";
     src: url("../../public/fonts/Montserrat-Light.ttf") format("truetype");

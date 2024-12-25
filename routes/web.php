@@ -5,6 +5,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubmissionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\LandingPageController;
+
+Route::get('/landing', [LandingPageController::class, 'show'])->name('landing');
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
