@@ -8,6 +8,9 @@
     --bg-dark: #19191C;
     --text-white: #FFFFFF;
   }
+  nav {
+    background-color: var(--primary-bg);
+  }
   
   body {
     font-family: 'Montserrat', sans-serif;

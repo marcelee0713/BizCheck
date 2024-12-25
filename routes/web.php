@@ -7,12 +7,11 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\LandingPageController;
 
-Route::get('/landing', [LandingPageController::class, 'show'])->name('landing');
+Route::get('/', [LandingPageController::class, 'show'])->name('landing');
 
-Route::get('/', function () {
+Route::get('/landing', function () {
     return Inertia::render('Welcome');
 })->name("welcome");
-
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
