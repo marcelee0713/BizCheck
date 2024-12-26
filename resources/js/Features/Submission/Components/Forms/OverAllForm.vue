@@ -18,8 +18,15 @@ const props = defineProps<{
 
 const form = validateForm(props.form.data());
 
-const onClick = () => {
+const onSaveAndEvaluate = () => {
     router.post(route("submission.store.evaluate"), {
+        ...form,
+    });
+};
+
+// TODO: Gawa ka ng button para dito
+const onSave = () => {
+    router.post(route("submission.store"), {
         ...form,
     });
 };
@@ -76,7 +83,7 @@ const onClick = () => {
         <PrimaryButton
             text="Save & Evaluate"
             type="button"
-            :onClick="onClick"
+            :onSaveAndEvaluate="onSaveAndEvaluate"
         />
     </div>
 </template>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Request\Profile;
 
 use App\Constants\BusinessModels;
 use App\Constants\Industries;

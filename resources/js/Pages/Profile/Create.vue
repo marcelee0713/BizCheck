@@ -29,8 +29,6 @@ const socialLinks: SocialLinks[] = reactive([
     },
 ]);
 
-const textHolder: string = "";
-
 const form = useForm<ProfileData>({
     business_name: "",
     business_model: "",

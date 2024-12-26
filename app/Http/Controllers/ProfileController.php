@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileCreateRequest;
 use App\Models\User;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Request\Profile\ProfileCreateRequest;
+use App\Request\Profile\ProfileEditRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use Inertia\Response;
 
 class ProfileController extends Controller
 {
@@ -73,15 +72,46 @@ class ProfileController extends Controller
         }
     }
 
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): Response
-    {
+    public function edit() {
+        $user = Auth::user();
+
+        $profile = $user->profile;
+
+        $socialLinks = $profile->socialLinks()->get();
+
         return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
+            'profile' => $profile,
+            'socialLinks' => $socialLinks
         ]);
+    }
+
+
+    public function update(ProfileEditRequest $request)
+    {
+        $fields = $request->validated();
+
+        try {
+            DB::beginTransaction();
+
+            $request->user()->profile()->update([
+                'business_name' => $fields['business_name'],
+                'business_model' => $fields['business_model'],
+                'industry' => $fields['industry'],
+                'description' => $fields['description'],
+                'target_audience' => $fields['target_audience'],
+                'unique_selling_point' => $fields['unique_selling_point'],
+                'location' => $fields['location'],
+                'phone_number' => $fields['phone_number'] ?? null,
+                'website_url' => $fields['website_url'],
+            ]);
+
+            DB::commit();
+
+            return redirect()->back();
+
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Something went wrong while creating your profile. Please try again.']);
+        }
     }
 
     /**

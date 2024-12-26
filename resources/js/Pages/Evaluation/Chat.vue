@@ -5,9 +5,9 @@ import {
     Message,
 } from "@/Features/Evaluation/types/evaluation-type";
 import { marked } from "marked";
-import aiPfp from "../../../public/images/ai.png";
-import userPfp from "../../../public/images/profile.png";
-import send from "../../../public/images/send.svg";
+import aiPfp from "../../../../public/images/ai.png";
+import userPfp from "../../../../public/images/profile.png";
+import send from "../../../../public/images/send.svg";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { useForm } from "@inertiajs/vue3";
 
@@ -69,7 +69,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
 const onSubmit = async () => {
     if (form.message.trim() === "") return;
 
-    form.post(`/evaluation/${props.evaluation.id}`, {
+    form.post(`/chat/${props.evaluation.id}`, {
         async onStart() {
             await nextTick();
             scrollToBottom();
@@ -84,6 +84,7 @@ const onSubmit = async () => {
 </script>
 
 <template>
+    <Head :title="'Evaluation -' + props.evaluation.id.split('-')[0]" />
     <AuthenticatedLayout>
         <main class="relative flex flex-col items-center overflow-hidden">
             <div
