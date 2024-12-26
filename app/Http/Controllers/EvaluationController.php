@@ -7,7 +7,7 @@ use App\Services\AIService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\App;
 
 class EvaluationController extends Controller
 {
@@ -47,13 +47,31 @@ class EvaluationController extends Controller
                 'content' => $fields['message']
             ];
 
-            $evaluation->responses()->create(['message' => $fields['message'], 'sender' => 'user']);
+            $evaluation->responses()->create(['message' => $fields['message'], 'sender' => 'user', 'created_at' => now()]);
 
-            $aiService = new AIService();
+            $aiResponse = '';
 
-            $aiResponse = $aiService->send($history);
+            if (App::environment('production')) {
+                $aiService = new AIService();
 
-            $evaluation->responses()->create(['message' => $aiResponse, 'sender' => 'assistant']);
+                $aiResponse = $aiService->send($history);
+
+                $evaluation->responses()->create(['message' => $aiResponse, 'sender' => 'assistant']);
+            } elseif (App::environment('local')) {
+                sleep(2);
+
+                $aiResponse = 'Skrrt beep boop, why is the spaghetti sad? Yeet the cheese, zoom zoom,
+                oops I did it again. UwU vibes 3000, potato-powered chaos machine go brrr. Banana pants,
+                what even is gravity? Wibbly-wobbly, timey-wimey nonsense with a sprinkle of existential dread.';
+
+                $evaluation->responses()->create([
+                    'message' => $aiResponse,
+                    'sender' => 'assistant',
+                    'created_at' => now()->addSeconds(10),
+                ]);
+            }
+
+
 
             DB::commit();
 
@@ -62,7 +80,5 @@ class EvaluationController extends Controller
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Something went wrong while creating your profile. Please try again.']);
         }
-
-
     }
 }
