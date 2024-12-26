@@ -23,6 +23,14 @@ const navConfig = {
                         navConfig.brandName.second
                     }}</span>
                 </Link>
+
+                <Link
+                    :href="route(navConfig.loginRoute)"
+                    class="bg-primary text-background px-3 py-1 rounded-lg font-montserrat hover:bg-yellow-500 transition-all duration-300"
+                    :aria-label="`${navConfig.buttonText} - Login to BizCheck`"
+                >
+                    {{ navConfig.buttonText }}
+                </Link>
             </div>
         </div>
 
