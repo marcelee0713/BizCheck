@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Request\Profile\ProfileCreateRequest;
-use App\Request\Profile\ProfileEditRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -18,6 +17,8 @@ class ProfileController extends Controller
      * Display the on Onboarding page
      */
     public function create() {
+        return Inertia::render('Profile/Create');
+
         $authUser = Auth::user();
 
         $user = User::find($authUser->id);
@@ -86,34 +87,31 @@ class ProfileController extends Controller
     }
 
 
-    public function update(ProfileEditRequest $request)
+    public function update(Request $request)
     {
-        $fields = $request->validated();
+        $user = $request->user();
 
-        try {
-            DB::beginTransaction();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'phone_number' => 'nullable|string',
+            'profile_image' => 'nullable|image|max:2048'
+        ]);
 
-            $request->user()->profile()->update([
-                'business_name' => $fields['business_name'],
-                'business_model' => $fields['business_model'],
-                'industry' => $fields['industry'],
-                'description' => $fields['description'],
-                'target_audience' => $fields['target_audience'],
-                'unique_selling_point' => $fields['unique_selling_point'],
-                'location' => $fields['location'],
-                'phone_number' => $fields['phone_number'] ?? null,
-                'website_url' => $fields['website_url'],
-            ]);
+        $user->update([
+            'name' => $validated['name'],
+            'email' => $validated['email']
+        ]);
 
-            DB::commit();
-
-            return redirect()->back();
-
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Something went wrong while creating your profile. Please try again.']);
+        // Handle profile image upload if exists
+        if ($request->hasFile('profile_image')) {
+            $path = $request->file('profile_image')->store('profile_images', 'public');
+            $user->profile_image = $path;
+            $user->save();
         }
-    }
 
+        return back()->with('success', 'Profile updated successfully');
+    }
     /**
      * Delete the user's account.
      */
@@ -134,4 +132,52 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+    public function verifyUpdate(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string'
+        ]);
+
+        // Implement your verification logic here
+        // For example, check against a stored verification code
+        
+        if ($this->validateVerificationCode($request->code)) {
+            // Verification successful
+            return redirect()->route('profile.edit')->with('success', 'Verification successful');
+        }
+
+        // Verification failed
+        return back()->withErrors(['code' => 'Invalid verification code']);
+    }
+
+    private function validateVerificationCode($code)
+    {
+        // Implement your verification logic
+        // This could involve checking against a stored code in the database
+        // or using a service like email verification
+        return $code === '123456'; // Example placeholder
+    }
+    public function resendVerification(Request $request)
+    {
+        $user = Auth::user();
+
+        // Generate a new verification code
+        $verificationCode = Str::random(6);
+
+        // Store the new verification code in the user's session
+        $request->session()->put('profile_update_verification_code', $verificationCode);
+        $request->session()->put('profile_update_verification_expires_at', now()->addMinutes(10));
+
+        // Send verification email
+        Mail::to($user->email)->send(new ProfileUpdateVerificationMail($verificationCode));
+
+        return response()->json([
+            'message' => 'Verification code has been resent to your email.'
+        ]);
+    }
 }
+
+
+
+
+
