@@ -10,7 +10,7 @@ defineProps<{
     <main
         class="flex flex-col gap-5 items-center justify-center w-full h-full mx-auto"
     >
-        <Link :href="route('welcome')" class="font-extrabold text-5xl">
+        <Link :href="route('landing')" class="font-extrabold text-5xl">
             BIZ<span class="text-textColor">CHECK</span>
         </Link>
         <div
