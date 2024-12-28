@@ -5,6 +5,18 @@ import { ref } from "vue";
 import { router } from '@inertiajs/vue3';
 import { Head } from "@inertiajs/inertia-vue3";
 
+const navConfig = {
+    brandName: {
+        first: "BIZ",
+        second: "CHECK",
+    },
+    buttonText: "Get Started",
+    loginRoute: "login",
+    submissionRoute: "submissions",
+    evaluationRoute: "evaluations",
+    profileRoute: "profile",
+};
+
 const form = ref({
   name: "",
   lastName: "",
@@ -179,5 +191,3 @@ const changeImage = () => {
 </main>
 </AuthenticatedLayout>
 </template>
-
-

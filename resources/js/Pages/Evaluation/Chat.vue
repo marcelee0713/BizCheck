@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, nextTick } from "vue";
+import { ref, onMounted, watch, nextTick, computed } from "vue";
 import {
     Evaluation,
     Message,
@@ -10,21 +10,62 @@ import userPfp from "../../../../public/images/profile.png";
 import send from "../../../../public/images/send.svg";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { useForm } from "@inertiajs/vue3";
+import { Head } from "@inertiajs/vue3";
+import { defineProps } from 'vue';
 
-// TODO:
-// For Jessile, can you try doing the ai response that has a typing effect just like
-// in chat GPT ??
-
-const props = defineProps<{
+// Ensure type safety for props
+interface EvaluationProps {
     evaluation: Evaluation;
     responses: Message[];
-}>();
+}
+
+const props = defineProps<EvaluationProps>();
 
 const form = useForm({
     message: "",
 });
+
 const scrollContainer = ref<HTMLElement | null>(null);
 const textareaRef = ref<HTMLTextAreaElement | null>(null);
+const typingMessage = ref("");
+const isTyping = ref(false);
+
+
+const typeMessage = (message: string): void => {
+    isTyping.value = true;
+    typingMessage.value = "";
+    let index = 0;
+
+    const typeNextChar = () => {
+        if (index < message.length) {
+            typingMessage.value += message[index];
+            index++;
+            setTimeout(typeNextChar, Math.random() * 50 + 20);
+        } else {
+            isTyping.value = false;
+        }
+    };
+
+    typeNextChar();
+};
+
+
+const displayedResponses = computed(() => {
+    const responses = props.responses.slice(1);
+    const lastResponse = responses[responses.length - 1];
+    
+    if (isTyping.value && lastResponse?.sender === 'assistant') {
+        return [
+            ...responses.slice(0, -1),
+            { 
+                ...lastResponse, 
+                message: typingMessage.value 
+            }
+        ];
+    }
+    
+    return responses;
+});
 
 const adjustHeight = () => {
     if (textareaRef.value) {
@@ -52,13 +93,18 @@ onMounted(() => {
     }, 0);
 });
 
-watch(props.responses, () => {
+watch(() => props.responses, (newResponses: any[]) => {
     setTimeout(async () => {
         await nextTick();
         scrollToBottom();
-    }, 0);
-});
 
+        
+        const lastResponse = newResponses[newResponses.length - 1];
+        if (lastResponse.sender === 'assistant') {
+            typeMessage(lastResponse.message);
+        }
+    }, 0);
+}, { deep: true });
 const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
@@ -67,7 +113,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
 };
 
 const onSubmit = async () => {
-    if (form.message.trim() === "") return;
+    if (form.message.trim() === "" || isTyping.value) return;
 
     form.post(`/chat/${props.evaluation.id}`, {
         async onStart() {
@@ -92,7 +138,7 @@ const onSubmit = async () => {
                 ref="scrollContainer"
             >
                 <div
-                    v-for="(response, i) in responses.slice(1)"
+                    v-for="(response, i) in displayedResponses"
                     :key="i + 1"
                     class="flex relative gap-5 max-w-[600px] w-full"
                 >
@@ -122,7 +168,7 @@ const onSubmit = async () => {
                     class="max-w-[600px] w-full h-fit relative flex justify-end items-end"
                 >
                     <textarea
-                        :disabled="form.processing"
+                        :disabled="form.processing || isTyping"
                         v-model="form.message"
                         @input="adjustHeight"
                         @keydown="handleKeyDown"
@@ -132,7 +178,7 @@ const onSubmit = async () => {
                     />
 
                     <button
-                        :disabled="form.processing"
+                        :disabled="form.processing || isTyping"
                         type="submit"
                         class="absolute -right-[70px] bg-background rounded-full h-[50px] w-[50px] flex items-center justify-center cursor-pointer border border-accent hover:bg-primary transition-colors duration-300"
                     >
