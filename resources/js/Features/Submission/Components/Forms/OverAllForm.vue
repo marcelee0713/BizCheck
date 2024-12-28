@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ProfileData, SocialLinks } from "@/types/types";
-import { InertiaForm } from "@inertiajs/vue3";
+import { InertiaForm, router } from "@inertiajs/vue3";
 import { EvaluationForm } from "../../types/submission-type";
 import { validateForm } from "../../utils/validate-evaluation-form";
 import BusinessInformation from "../Partials/BusinessInformation.vue";
@@ -8,7 +8,8 @@ import DisplayList from "../Partials/DisplayList.vue";
 import DisplayCompetitorList from "../Partials/DisplayCompetitorList.vue";
 import DisplayMetricList from "../Partials/DisplayMetricList.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { router } from "@inertiajs/vue3";
+import { ref } from "vue";
+import { defineProps } from 'vue';
 
 const props = defineProps<{
     profile: ProfileData;
@@ -17,23 +18,27 @@ const props = defineProps<{
 }>();
 
 const form = validateForm(props.form.data());
+const isLoading = ref(false);
 
 const onSaveAndEvaluate = () => {
+    isLoading.value = true;
     router.post(route("submission.store.evaluate"), {
         ...form,
-    });
-};
-
-// TODO: Gawa ka ng button para dito
-const onSave = () => {
-    router.post(route("submission.store"), {
-        ...form,
+    }, {
+        onFinish: () => {
+            isLoading.value = false;
+        }
     });
 };
 </script>
-
 <template>
-    <div class="flex flex-col gap-[25px] overflow-y-auto text-textColor">
+    <div class="relative flex flex-col gap-[25px] overflow-y-auto text-textColor">
+        <!-- Loading indicator -->
+        <div 
+            v-if="isLoading" 
+            class="absolute top-[-10px] left-0 right-0 h-1 bg-primary-yellow animate-loading-line z-50"
+        ></div>
+
         <BusinessInformation
             :profile="props.profile"
             :social-links="socialLinks"
@@ -80,10 +85,15 @@ const onSave = () => {
             :lists="form.additionalInsights"
         />
 
-        <PrimaryButton
-            text="Save & Evaluate"
-            type="button"
-            :onSaveAndEvaluate="onSaveAndEvaluate"
-        />
+        <div class="flex justify-center items-center gap-4">
+            <button
+                type="button"
+                @click="onSaveAndEvaluate"
+                :disabled="isLoading"
+                class="w-half bg-primary text-secondary font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-all"
+            >
+                Save & Evaluate
+            </button>
+        </div>
     </div>
 </template>
