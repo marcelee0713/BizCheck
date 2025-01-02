@@ -9,7 +9,7 @@ import DisplayCompetitorList from "../Partials/DisplayCompetitorList.vue";
 import DisplayMetricList from "../Partials/DisplayMetricList.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { ref } from "vue";
-import { defineProps } from 'vue';
+import { defineProps } from "vue";
 
 const props = defineProps<{
     profile: ProfileData;
@@ -22,20 +22,26 @@ const isLoading = ref(false);
 
 const onSaveAndEvaluate = () => {
     isLoading.value = true;
-    router.post(route("submission.store.evaluate"), {
-        ...form,
-    }, {
-        onFinish: () => {
-            isLoading.value = false;
+    router.post(
+        route("submission.store.evaluate"),
+        {
+            ...form,
+        },
+        {
+            onFinish: () => {
+                isLoading.value = false;
+            },
         }
-    });
+    );
 };
 </script>
 <template>
-    <div class="relative flex flex-col gap-[25px] overflow-y-auto text-textColor">
+    <div
+        class="relative flex flex-col gap-[25px] overflow-y-auto text-textColor"
+    >
         <!-- Loading indicator -->
-        <div 
-            v-if="isLoading" 
+        <div
+            v-if="isLoading"
             class="absolute top-[-10px] left-0 right-0 h-1 bg-primary-yellow animate-loading-line z-50"
         ></div>
 
@@ -85,7 +91,7 @@ const onSaveAndEvaluate = () => {
             :lists="form.additionalInsights"
         />
 
-        <div class="flex justify-center items-center gap-4">
+        <div class="flex justify-center items-center">
             <button
                 type="button"
                 @click="onSaveAndEvaluate"

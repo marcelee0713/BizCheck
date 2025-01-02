@@ -4,39 +4,41 @@
 
 /* Landing Page Styles */
 :root {
-    --primary-yellow: #FFC82C;
-    --bg-dark: #19191C;
-    --text-white: #FFFFFF;
-  }
-  nav {
+    --primary-yellow: #ffc82c;
+    --bg-dark: #19191c;
+    --text-white: #ffffff;
+}
+nav {
     background-color: var(--primary-bg);
-  }
-  
-  body {
-    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-white);
-  }
-  
-  h1, p, button {
-    font-family: 'Montserrat', sans-serif;
-  }
-  
-  nav {
+}
+
+h1,
+p,
+button {
+    font-family: "Montserrat", sans-serif;
+}
+
+nav {
     background-color: var(--bg-dark);
-  }
-  
-  .text-primary-yellow {
+}
+
+.text-primary-yellow {
     color: var(--primary-yellow);
-  }
-  
-  .text-white {
+}
+
+.text-white {
     color: var(--text-white);
-  }
-  
-  button {
+}
+
+button {
     transition: background-color 0.3s ease;
-  }
+}
 
 @font-face {
     font-family: "Montserrat";

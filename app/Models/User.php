@@ -28,6 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     protected $hidden = [
         'password',
         'remember_token',
+        'profile'
     ];
 
     protected function casts(): array

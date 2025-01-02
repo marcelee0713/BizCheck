@@ -11,7 +11,7 @@ import send from "../../../../public/images/send.svg";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
-import { defineProps } from 'vue';
+import { defineProps } from "vue";
 
 // Ensure type safety for props
 interface EvaluationProps {
@@ -29,7 +29,6 @@ const scrollContainer = ref<HTMLElement | null>(null);
 const textareaRef = ref<HTMLTextAreaElement | null>(null);
 const typingMessage = ref("");
 const isTyping = ref(false);
-
 
 const typeMessage = (message: string): void => {
     isTyping.value = true;
@@ -49,21 +48,20 @@ const typeMessage = (message: string): void => {
     typeNextChar();
 };
 
-
 const displayedResponses = computed(() => {
     const responses = props.responses.slice(1);
     const lastResponse = responses[responses.length - 1];
-    
-    if (isTyping.value && lastResponse?.sender === 'assistant') {
+
+    if (isTyping.value && lastResponse?.sender === "assistant") {
         return [
             ...responses.slice(0, -1),
-            { 
-                ...lastResponse, 
-                message: typingMessage.value 
-            }
+            {
+                ...lastResponse,
+                message: typingMessage.value,
+            },
         ];
     }
-    
+
     return responses;
 });
 
@@ -93,18 +91,21 @@ onMounted(() => {
     }, 0);
 });
 
-watch(() => props.responses, (newResponses: any[]) => {
-    setTimeout(async () => {
-        await nextTick();
-        scrollToBottom();
+watch(
+    () => props.responses,
+    (newResponses: any[]) => {
+        setTimeout(async () => {
+            await nextTick();
+            scrollToBottom();
 
-        
-        const lastResponse = newResponses[newResponses.length - 1];
-        if (lastResponse.sender === 'assistant') {
-            typeMessage(lastResponse.message);
-        }
-    }, 0);
-}, { deep: true });
+            const lastResponse = newResponses[newResponses.length - 1];
+            if (lastResponse.sender === "assistant") {
+                typeMessage(lastResponse.message);
+            }
+        }, 0);
+    },
+    { deep: true }
+);
 const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();

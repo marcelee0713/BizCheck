@@ -6,7 +6,7 @@ import { reactive } from "vue";
 import PrimaryTextArea from "@/Components/PrimaryTextArea.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { isValidUrl } from "@/utils";
-import PrimaryDropdown from "@/Features/Profile/PrimaryDropdown.vue";
+import PrimaryDropdown from "@/Components/PrimaryDropdown.vue";
 import { BUSINESS_MODELS, INDUSTRIES } from "@/constants/global";
 import { ProfileData, SocialLinks } from "@/types/types";
 
@@ -61,7 +61,9 @@ const onSelectIndustries = (i: number) => {
     <Head title="Create Profile" />
 
     <AuthenticatedLayout>
-        <main class="flex flex-col flex-1 gap-5 mx-auto container py-5">
+        <main
+            class="flex flex-col flex-1 gap-5 mx-auto container py-5 overflow-y-auto"
+        >
             <div class="flex flex-col gap-1">
                 <div class="font-bold text-2xl">
                     <span class="font-normal">Welcome</span>

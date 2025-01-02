@@ -13,11 +13,15 @@ Route::inertia('/', 'LandingPage')->name('landing');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
 
-    Route::get('/on-board', [ProfileController::class, 'create'])->name('onboard');
+    Route::get('/on-board', [ProfileController::class, 'onboard'])->name('onboard');
 
-    Route::get("/profile", [ProfileController::class, 'edit'])->name('profile');
+    Route::get("/profile", [ProfileController::class, 'show'])->name('profile');
+
+    Route::get("/profile-edit", [ProfileController::class, 'edit'])->name('profile.edit');
 
     Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::delete("/profile",  [ProfileController::class, 'destroy'])->name('profile.destroy');
 
@@ -40,13 +44,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete("/evaluation/{id}", [EvaluationController::class, 'destroy'])->name('evaluation.destroy');
 
     Route::post('/chat/{id}', [ResponseController::class, 'store'])->name('chat');
-    
-    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::get('/update-verification', [VerificationController::class, 'show'])->name('verification.show');
-    Route::post('/verify-update', [VerificationController::class, 'verify'])->name('verification.verify');
 
     Route::inertia('/business', 'Business')->name('business');
-});    Route::inertia('/business', 'Business')->name('business');
+});
 
 require __DIR__.'/auth.php';
 
