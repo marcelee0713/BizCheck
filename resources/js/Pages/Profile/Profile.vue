@@ -5,7 +5,6 @@ import { User } from "@/types";
 import userPfp from "../../../../public/images/profile.png";
 import TextComponent from "@/Features/Profile/TextComponent.vue";
 import SocialLinksComponent from "@/Features/Profile/SocialLinksComponent.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const props = defineProps<{
     auth: {
@@ -14,15 +13,6 @@ const props = defineProps<{
     profile: ProfileData | null;
     socialLinks: SocialLinks[];
 }>();
-
-// const onChange = (e: Event): void => {
-//     const target = e.target as HTMLInputElement;
-
-//     if (target && target.files && target.files.length > 0) {
-//         userForm.avatar = target.files[0];
-//         userForm.preview = URL.createObjectURL(target.files[0]);
-//     }
-// };
 </script>
 
 <template>

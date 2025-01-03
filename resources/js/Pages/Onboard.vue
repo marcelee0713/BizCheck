@@ -142,7 +142,7 @@ const onSelectIndustries = (i: number) => {
                         v-model="form.phoneNumber"
                         label="Phone Number"
                         type="number"
-                        id="unique_selling_point"
+                        id="phone_number"
                         class="flex-1"
                     />
                 </div>

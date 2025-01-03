@@ -7,9 +7,12 @@ const props = defineProps<{
     arr: string[];
     onSelect: (i: number) => void;
     err?: string;
+    initialIndex?: number;
 }>();
 
-const element = ref<string>();
+const element = ref<string>(
+    props.initialIndex ? props.arr[props.initialIndex] : ""
+);
 
 const popUp = ref<boolean>(false);
 

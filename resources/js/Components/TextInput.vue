@@ -31,7 +31,7 @@ const toggle = () => {
         <div class="relative">
             <input
                 :type="(type, !isVisible ? type : 'text')"
-                class="outline-none border-2 border-accent bg-transparent py-2 px-3 rounded-md w-full text-sm"
+                class="outline-none border-2 border-accent bg-transparent py-2 px-3 rounded-md w-full text-sm disabled:bg-secondary disabled:text-accent disabled:cursor-not-allowed"
                 v-model="model"
                 ref="input"
                 :id="id"
