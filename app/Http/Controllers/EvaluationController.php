@@ -27,9 +27,7 @@ class EvaluationController extends Controller
     }
 
     public function show($id) {
-
         $evaluation = Evaluations::findOrFail($id);
-
         $responses = $evaluation->responses()->orderBy('created_at', 'asc')->get();
 
         return Inertia::render("Evaluation/Chat", [

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\MessageFormat;
 use App\Http\Requests\SubmissionCreateRequest;
 use App\Models\Submissions;
+use App\Models\Evaluations; 
 use App\Services\AIService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -12,24 +13,14 @@ use Inertia\Inertia;
 
 class SubmissionController extends Controller
 {
-    public function index(Request $request) {
-        $search = $request->query('search', null);
-        $dateOrder = $request->query('dateOrder', 'desc');
-
-        $submissions = $request->user()->submissions()
-        ->when($search, function ($query) use ($search) {
-            return $query->where('title', 'like', '%' . $search . '%');
-        })
-        ->orderBy('created_at', $dateOrder)
-        ->paginate(10);
-
-        return Inertia::render("Submission/All", [
-            'submissions' => $submissions,
+    public function index()
+    {
+        return Inertia::render('Submission/All', [
+            'evaluations' => Evaluations::latest()->paginate()
         ]);
     }
-
-    public function create(Request $request) {
-
+    public function create(Request $request)
+    {
         $profile = $request->user()->profile;
 
         $socialLinks = $profile->socialLinks()->get();

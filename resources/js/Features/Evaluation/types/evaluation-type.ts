@@ -1,9 +1,8 @@
 export interface Evaluation {
     id: string;
-    user_id: string;
-    submission_id: string;
-    createdAt: Date | string;
-    updatedAt: Date | string;
+    title: string;
+    description: string;
+    created_at: string;
 }
 
 export interface Message {

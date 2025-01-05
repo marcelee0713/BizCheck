@@ -10,8 +10,7 @@ const navConfig = {
     },
     buttonText: "Get Started",
     loginRoute: "login",
-    submissionRoute: "submissions",
-    evaluationRoute: "evaluations",
+    submissionRoute: "evaluations",
     profileRoute: "profile",
     businessRoute: "business",
     logoutRoute: "logout",
@@ -57,20 +56,12 @@ onUnmounted(() => {
                         navConfig.brandName.second
                     }}</span>
                 </Link>
-
                 <div class="flex items-center gap-6">
                     <Link
                         :href="route(navConfig.submissionRoute)"
                         class="text-white font-montserrat hover:text-yellow-500 transition-all duration-300"
                     >
                         Submission
-                    </Link>
-
-                    <Link
-                        :href="route(navConfig.evaluationRoute)"
-                        class="text-white font-montserrat hover:text-yellow-500 transition-all duration-300"
-                    >
-                        Evaluation
                     </Link>
 
                     <div class="relative">
