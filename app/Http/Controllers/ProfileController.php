@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Profile\ProfileCreateRequest;
+use App\Http\Requests\Profile\ProfileEditRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,9 +14,6 @@ use Inertia\Inertia;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the on Onboarding page
-     */
     public function onboard() {
         return Inertia::render('Onboard');
 
@@ -48,7 +46,7 @@ class ProfileController extends Controller
                 'target_audience' => $fields['target_audience'],
                 'unique_selling_point' => $fields['unique_selling_point'],
                 'location' => $fields['location'],
-                'phone_number' => $fields['phone_number'] ?? null,
+                'phone_number' => $fields['phone_number'],
                 'website_url' => $fields['website_url'],
             ]);
 
@@ -68,6 +66,7 @@ class ProfileController extends Controller
             return redirect()->route('dashboard');
 
         } catch (\Exception $e) {
+            DB::rollBack();
             return back()->withErrors(['error' => 'Something went wrong while creating your profile. Please try again.']);
         }
     }
@@ -99,26 +98,41 @@ class ProfileController extends Controller
     }
 
 
-    public function update(Request $request)
+    public function update(ProfileEditRequest $request)
     {
-        $user = $request->user();
+        $fields = $request->validated();
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'phone_number' => 'nullable|string',
-            'profile_image' => 'nullable|image|max:2048'
-        ]);
+        $user = Auth::user();
 
-        $user->update([
-            'name' => $validated['name'],
-            'email' => $validated['email']
-        ]);
+        $profile = $user->profile;
 
-        // Handle profile image upload if exists
-        if ($request->hasFile('profile_image')) {
-            $path = $request->file('profile_image')->store('profile_images', 'public');
-            $user->profile_image = $path;
-            $user->save();
+        if (!$profile) {
+            return back()->withErrors(['error' => 'No profile found for the current user.']);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $profile->update([
+                'business_name' => $fields['business_name'],
+                'business_model' => $fields['business_model'],
+                'industry' => $fields['industry'],
+                'description' => $fields['description'],
+                'target_audience' => $fields['target_audience'],
+                'unique_selling_point' => $fields['unique_selling_point'],
+                'location' => $fields['location'],
+                'phone_number' => $fields['phone_number'],
+                'website_url' => $fields['website_url'],
+            ]);
+
+
+            DB::commit();
+
+            return back()->with('message', 'Successfully updated your business profile!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Something went wrong while creating your profile. Please try again.']);
         }
 
         return back()->with('success', 'Profile updated successfully');

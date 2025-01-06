@@ -27,8 +27,12 @@ const props = defineProps<{
                 <div class="font-bold text-2xl">Profile</div>
                 <div class="flex gap-5 items-center">
                     <img
-                        :src="props.auth.user.avatar ?? userPfp"
-                        class="w-[150px] h-[150px] flex-shrink-0 bg-accent rounded-full drop-shadow-lg"
+                        :src="
+                            props.auth.user.avatar
+                                ? '/storage/' + props.auth.user.avatar
+                                : userPfp
+                        "
+                        class="w-[150px] h-[150px] flex-shrink-0 bg-accent rounded-full drop-shadow-lg object-cover"
                     />
 
                     <div class="flex flex-col gap-1">
@@ -67,7 +71,7 @@ const props = defineProps<{
 
                     <TextComponent
                         title="Phone number"
-                        :text="profile.phoneNumber"
+                        :text="profile.phone_number"
                     />
 
                     <TextComponent title="Location" :text="profile.location" />

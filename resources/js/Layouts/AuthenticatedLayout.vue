@@ -71,7 +71,12 @@ onUnmounted(() => {
                             @click.stop="toggleDropdown"
                         >
                             <img
-                                :src="$page.props.auth.user.avatar ?? userPfp"
+                                :src="
+                                    $page.props.auth.user.avatar
+                                        ? '/storage/' +
+                                          $page.props.auth.user.avatar
+                                        : userPfp
+                                "
                                 alt="Profile"
                                 class="w-full h-full object-cover"
                             />

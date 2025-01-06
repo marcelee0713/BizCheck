@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\SubmissionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResponseController;
-use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\SocialLinksController;
+use App\Http\Controllers\UserController;
 use Inertia\Inertia;
 
 Route::inertia('/', 'LandingPage')->name('landing');
@@ -14,6 +16,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::post('/user-update', [UserController::class, 'update'])->name('user.update');
+    Route::patch('/password', [PasswordController::class, 'update'])->name('password.update');
+    Route::patch('/social-links', [SocialLinksController::class, 'update'])->name('social_links.update');
 
     Route::get('/on-board', [ProfileController::class, 'onboard'])->name('onboard');
     Route::get("/profile", [ProfileController::class, 'show'])->name('profile');

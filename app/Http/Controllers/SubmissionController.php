@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\MessageFormat;
 use App\Http\Requests\SubmissionCreateRequest;
 use App\Models\Submissions;
-use App\Models\Evaluations; 
+use App\Models\Evaluations;
 use App\Services\AIService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -200,7 +200,7 @@ class SubmissionController extends Controller
 
             DB::commit();
 
-            return redirect()->route("chat",['id' => $evaluation->id]);
+            return redirect()->route("evaluation",['id' => $evaluation->id]);
 
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Something went wrong while doing this request. Please try again.']);

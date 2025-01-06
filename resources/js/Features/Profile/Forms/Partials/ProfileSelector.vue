@@ -26,6 +26,7 @@ defineProps<{
                 </label>
 
                 <button
+                    type="button"
                     v-on:click="onRemove"
                     class="text-background flex-1 bg-accent font-bold rounded-md text-center py-2 hover:bg-red-400"
                 >
