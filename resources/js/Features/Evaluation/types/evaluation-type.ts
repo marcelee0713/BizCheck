@@ -1,4 +1,5 @@
 export interface Evaluation {
+    business_name: any;
     id: string;
     title: string;
     description: string;

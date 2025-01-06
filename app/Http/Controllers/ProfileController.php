@@ -28,7 +28,7 @@ class ProfileController extends Controller
             return Inertia::render('Onboard');
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->route('submission.create');
     }
 
     public function store(ProfileCreateRequest $request)

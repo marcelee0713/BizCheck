@@ -45,9 +45,12 @@ const form = useForm<ProfileData>({
 const submit = () => {
     form.social_links = socialLinks.filter((val) => isValidUrl(val.link));
 
-    form.post(route("profile.store"));
+    form.post(route("profile.store"), {
+        onSuccess: () => {
+            window.location.href = route('submission.create')
+        }
+    });
 };
-
 const onSelectBusinessModel = (i: number) => {
     form.business_model = BUSINESS_MODELS[i];
 };

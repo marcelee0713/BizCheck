@@ -109,17 +109,18 @@ class EvaluationController extends Controller
         }
     }
 
-    public function destory(Request $request, $id) {
-        $user = $request->user();
-
-        $evaluation = Evaluations::where('id', $id)->where('user_id', $user->id)->first();
-
-        if (!$evaluation) {
-            return back()->with('error', 'Evaluation not found.');
+    public function destroy($id)
+    {
+        $evaluation = Evaluations::findOrFail($id);
+        
+        // Delete associated submission
+        if ($evaluation->submission) {
+            $evaluation->submission->delete();
         }
+        
+        // Delete the evaluation
+        $evaluation->delete();
 
-        $evaluation->destory();
-
-        return redirect()->back()->with('message', 'Submission deleted successfully!');
+        return redirect()->back();
     }
 }
