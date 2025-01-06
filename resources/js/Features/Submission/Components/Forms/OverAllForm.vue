@@ -28,6 +28,10 @@ const onSaveAndEvaluate = () => {
             ...form,
         },
         {
+            onSuccess: (page: any) => {
+                const response = page.props as { evaluation: { id: number } };
+                router.visit(route('evaluation.chat', { id: response.evaluation.id }));
+            },
             onFinish: () => {
                 isLoading.value = false;
             },

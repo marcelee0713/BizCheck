@@ -200,7 +200,7 @@ class SubmissionController extends Controller
 
             DB::commit();
 
-            return redirect()->route("chat",['id' => $evaluation->id]);
+            return redirect()->route("evaluation",['id' => $evaluation->id]);
 
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Something went wrong while doing this request. Please try again.']);
@@ -208,16 +208,22 @@ class SubmissionController extends Controller
 
     }
 
-    public function destory(Request $request, $id) {
-        $user = $request->user();
 
-        $submission = Submissions::where('id', $id)->where('user_id', $user->id)->first();
+    public function destroy(Request $request, $id) {
+        $user = $request->user();
+    
+        $submission = Submissions::where('id', $id)
+            ->where('user_id', $user->id)
+            ->first();
+
+
 
         if (!$submission) {
             return back()->with('error', 'Submission not found.');
         }
 
-        $submission->destory();
+
+        $submission->delete();
 
         return redirect()->back()->with('message', 'Submission deleted successfully!');
     }

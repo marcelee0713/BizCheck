@@ -44,10 +44,14 @@ const filteredEvaluations = computed(() => {
 const createEvaluation = () => {
     form.post(route('evaluations.store'), {
         onSuccess: () => {
-            form.reset();
-            showCreateModal.value = false;
-        }
-    });
+
+
+
+
+                    form.reset();
+                    showCreateModal.value = false;
+                }
+            });
 };
 
 const deleteEvaluation = (id: string) => {
@@ -116,7 +120,7 @@ const deleteEvaluation = (id: string) => {
                         </div>
 
                         <button
-                            @click="showCreateModal = true"
+                            @click="$inertia.visit(route('submission.create'))"
                             class="flex items-center gap-2 px-4 py-2 bg-[#FFC82C] text-black rounded hover:bg-[#e6b527] transition-colors font-montserrat w-fit"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -140,9 +144,20 @@ const deleteEvaluation = (id: string) => {
                                         <td class="px-4 py-2">{{ evaluation.id }}</td>
                                         <td class="px-4 py-2">{{ evaluation.created_at }}</td>
                                         <td class="px-4 py-2 flex items-center gap-2">
-                                            <button class="text-[#FFC82C] hover:text-[#e6b527]" @click="showCreateModal = true">
+                                            <button 
+                                                class="text-blue-400 hover:text-blue-600"
+                                                @click="$inertia.visit(`/evaluation/${evaluation.id}`)"
+                                            >
+                                                View
+                                            </button>
+                                            
+                                            <button 
+                                                class="text-[#FFC82C] hover:text-[#e6b527]" 
+                                                @click="$inertia.visit(`/submission/${evaluation.id}/step-5`)"
+                                            >
                                                 Create Evaluation
                                             </button>
+
                                             <button class="text-red-500 hover:text-red-700" @click="deleteEvaluation(evaluation.id)">
                                                 Delete
                                             </button>
