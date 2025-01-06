@@ -15,6 +15,7 @@ use Inertia\Inertia;
 class ProfileController extends Controller
 {
     public function onboard() {
+        // TODO: REMOVE THIS IF PROJECT CHECKING FOR the actual flow.
         return Inertia::render('Onboard');
 
         $authUser = Auth::user();
@@ -76,7 +77,7 @@ class ProfileController extends Controller
 
         $profile = $user->profile;
 
-        $socialLinks = $profile->socialLinks()->get();
+        $socialLinks = $profile ? $profile->socialLinks()->get() : [];
 
         return Inertia::render('Profile/Edit', [
             'profile' => $profile,
@@ -89,7 +90,7 @@ class ProfileController extends Controller
 
         $profile = $user->profile;
 
-        $socialLinks = $profile->socialLinks()->get();
+        $socialLinks = $profile ? $profile->socialLinks()->get() : [];
 
         return Inertia::render('Profile/Profile', [
             'profile' => $profile,
