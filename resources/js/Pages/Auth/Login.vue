@@ -11,6 +11,10 @@ const form = useForm({
     remember: false,
 });
 
+defineProps<{
+    status?: string;
+}>();
+
 const submit = () => {
     form.post(route("login"), {
         onFinish: () => {
@@ -24,6 +28,13 @@ const submit = () => {
     <Head title="Log in" />
     <GuestLayout text="Log in">
         <form @submit.prevent="submit" class="flex flex-col gap-5">
+            <div
+                v-if="status"
+                class="text-[13px] text-center bg-green-200 bg-opacity-25 rounded-lg text-green-400 p-3 font-bold"
+            >
+                {{ status }}
+            </div>
+
             <TextInput
                 :err="form.errors.email"
                 :disabled="form.processing"
