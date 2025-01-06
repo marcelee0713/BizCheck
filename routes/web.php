@@ -48,8 +48,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/chat/{id}', [ResponseController::class, 'store'])->name('chat');
 
-    Route::inertia('/business', 'Business')->name('business');
-
     Route::get('/evaluation/form', [EvaluationController::class, 'showForm'])->name('evaluation.form');
 });
 

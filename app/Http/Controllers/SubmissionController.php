@@ -22,6 +22,10 @@ class SubmissionController extends Controller
     public function create(Request $request)
     {
         $profile = $request->user()->profile;
+        
+        if (!$profile) {
+            return redirect()->route('onboard');
+        }
 
         $socialLinks = $profile->socialLinks()->get();
 

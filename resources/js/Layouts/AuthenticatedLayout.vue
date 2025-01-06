@@ -12,7 +12,6 @@ const navConfig = {
     loginRoute: "login",
     submissionRoute: "evaluations",
     profileRoute: "profile",
-    businessRoute: "business",
     logoutRoute: "logout",
 };
 
@@ -97,13 +96,6 @@ onUnmounted(() => {
                                 class="block px-4 py-2 hover:bg-yellow-500 hover:text-background transition-all duration-300 font-montserrat"
                             >
                                 Profile
-                            </Link>
-
-                            <Link
-                                :href="route(navConfig.businessRoute)"
-                                class="block px-4 py-2 hover:bg-yellow-500 hover:text-background transition-all duration-300 font-montserrat"
-                            >
-                                Business
                             </Link>
 
                             <button
