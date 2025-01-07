@@ -55,8 +55,16 @@ const createEvaluation = () => {
 };
 
 const deleteEvaluation = (id: string) => {
-    if (confirm('Are you sure you want to delete this evaluation?')) {
-        form.delete(route('evaluations.destroy', id));
+    if (confirm('Are you sure you want to delete this submission?')) {
+        useForm({}).delete(route('evaluations.destroy', id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                // Success handling
+            },
+            onError: (errors: any) => {
+                console.log(errors);
+            }
+        });
     }
 };
 </script>
