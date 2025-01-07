@@ -26,11 +26,23 @@ class ProfileCreateRequest extends FormRequest
             'target_audience' => ['nullable', 'string', 'max:255' ],
             'unique_selling_point' => ['nullable', 'string', 'max:255' ],
             'location' => ['nullable', 'string', 'max:500' ],
-            'phone_number' => ['nullable', 'string', 'max:255' ],
+            'phone_number' => [
+                'nullable',
+                'string',
+                'regex:/^(09\d{9}|(\+639)\d{9})$/',
+                'max:13',
+            ],
             'website_url' => ['nullable', 'string', 'max:255'],
             'social_links' => ['nullable', 'array'],
             'social_links.*.platform' => ['required', 'string', 'max:255'],
             'social_links.*.link' => ['required', 'string', 'url', 'max:500'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'phone_number.regex' => 'The phone number must be a valid Philippine mobile number.',
         ];
     }
 }

@@ -29,13 +29,7 @@ const onSaveAndEvaluate = () => {
             title: props.profile.business_name,
         },
         {
-            onSuccess: (page: any) => {
-                const response = page.props as { evaluation: { id: number } };
-                router.visit(route('evaluation.chat', { id: response.evaluation.id }));
-            },
-            onFinish: () => {
-                isLoading.value = false;
-            },
+            onFinish: () => (isLoading.value = false),
         }
     );
 };

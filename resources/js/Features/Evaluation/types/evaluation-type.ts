@@ -1,3 +1,7 @@
+export interface EvaluationProps {
+    evaluation: Evaluation;
+    responses: Message[];
+}
 export interface Evaluation {
     id: string;
     business_name: string;

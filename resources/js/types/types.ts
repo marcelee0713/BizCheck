@@ -16,7 +16,7 @@ export interface ProfileData {
     target_audience?: string;
     unique_selling_point?: string;
     location?: string;
-    phoneNumber?: string;
+    phone_number?: string;
     website_url?: string;
     social_links?: SocialLinks[];
 }
