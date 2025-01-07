@@ -9,8 +9,6 @@ use App\Services\AIService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 
 class EvaluationController extends Controller
 {
@@ -105,6 +103,7 @@ class EvaluationController extends Controller
 
             return redirect()->route("chat",['id' => $evaluation->id]);
         } catch (\Exception $e) {
+            DB::rollBack();
             return back()->withErrors(['error' => 'Something went wrong while doing this request. Please try again.']);
         }
     }
@@ -112,12 +111,12 @@ class EvaluationController extends Controller
     public function destroy($id)
     {
         $evaluation = Evaluations::findOrFail($id);
-        
+
         // Delete associated submission
         if ($evaluation->submission) {
             $evaluation->submission->delete();
         }
-        
+
         // Delete the evaluation
         $evaluation->delete();
 
