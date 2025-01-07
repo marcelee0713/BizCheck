@@ -28,7 +28,7 @@ const filteredEvaluations = computed(() => {
     
     if (search.value) {
         filtered = filtered.filter((evaluation: Evaluation) =>
-            evaluation.title.toLowerCase().includes(search.value.toLowerCase())
+            evaluation.business_name.toLowerCase().includes(search.value.toLowerCase())
         );
     }
     
@@ -56,7 +56,15 @@ const createEvaluation = () => {
 
 const deleteEvaluation = (id: string) => {
     if (confirm('Are you sure you want to delete this evaluation?')) {
-        form.delete(route('evaluations.destroy', id));
+        useForm({}).delete(`/evaluation/${id}`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                // Table will auto-refresh with updated data
+            },
+            onError: (errors: any) => {
+                console.error('Delete failed:', errors);
+            }
+        });
     }
 };
 </script>
@@ -134,6 +142,7 @@ const deleteEvaluation = (id: string) => {
                             <table class="w-full text-left border-collapse border-spacing-0">
                                 <thead class="bg-[#FFC82C] text-black font-montserrat">
                                     <tr>
+                                        <th class="px-4 py-2">Title</th>
                                         <th class="px-4 py-2">Submission ID</th>
                                         <th class="px-4 py-2">Created At</th>
                                         <th class="px-4 py-2">Actions</th>
@@ -141,8 +150,9 @@ const deleteEvaluation = (id: string) => {
                                 </thead>
                                 <tbody>
                                     <tr v-for="evaluation in filteredEvaluations" :key="evaluation.id" class="border-b border-[#FFC82C]">
-                                        <td class="px-4 py-2">{{ evaluation.id }}</td>
-                                        <td class="px-4 py-2">{{ evaluation.created_at }}</td>
+                                    <td class="px-4 py-2">{{ evaluation.business_name }}</td>
+                                    <td class="px-4 py-2">{{ evaluation.id }}</td>
+                                    <td class="px-4 py-2">{{ evaluation.created_at }}</td>
                                         <td class="px-4 py-2 flex items-center gap-2">
                                             <button 
                                                 class="text-blue-400 hover:text-blue-600"
@@ -158,7 +168,10 @@ const deleteEvaluation = (id: string) => {
                                                 Create Evaluation
                                             </button>
 
-                                            <button class="text-red-500 hover:text-red-700" @click="deleteEvaluation(evaluation.id)">
+                                            <button 
+                                                class="text-red-500 hover:text-red-700" 
+                                                @click="deleteEvaluation(evaluation.id)"
+                                            >
                                                 Delete
                                             </button>
                                         </td>

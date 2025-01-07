@@ -1,9 +1,9 @@
 export interface Evaluation {
-    business_name: any;
     id: string;
+    business_name: string;
+    created_at: string;
     title: string;
     description: string;
-    created_at: string;
 }
 
 export interface Message {

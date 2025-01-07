@@ -9,8 +9,6 @@ use App\Services\AIService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 
 class EvaluationController extends Controller
 {
@@ -79,6 +77,7 @@ class EvaluationController extends Controller
 
             $fields = [
                 'title' => $submission->title,
+                'business_name' => $submission->title ?: throw new \Exception('Business name is required'),
                 'description' => $submission->description,
                 'competitors' => $competitors,
                 'metrics' => $metrics,
@@ -108,19 +107,22 @@ class EvaluationController extends Controller
             return back()->withErrors(['error' => 'Something went wrong while doing this request. Please try again.']);
         }
     }
-
+    
     public function destroy($id)
     {
         $evaluation = Evaluations::findOrFail($id);
-        
+
         // Delete associated submission
         if ($evaluation->submission) {
             $evaluation->submission->delete();
         }
-        
+
         // Delete the evaluation
         $evaluation->delete();
-
-        return redirect()->back();
+        
+        return redirect()->back()->with('success', 'Evaluation deleted successfully');
     }
 }
+
+
+

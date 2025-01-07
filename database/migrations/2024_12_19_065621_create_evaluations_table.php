@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('submission_id')->constrained()->onDelete('cascade');
+            $table->string('business_name')->nullable();
             $table->timestamps();
         });
     }

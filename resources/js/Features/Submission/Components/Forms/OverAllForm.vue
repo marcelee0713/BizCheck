@@ -26,6 +26,7 @@ const onSaveAndEvaluate = () => {
         route("submission.store.evaluate"),
         {
             ...form,
+            title: props.profile.business_name,
         },
         {
             onSuccess: (page: any) => {

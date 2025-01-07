@@ -47,8 +47,8 @@ class SubmissionController extends Controller
 
             $socialLinks = $socialLinks ?? [];
 
-            $submission = $user->submissions()->create([
-                'title' => $fields['title'],
+            $submission = Submissions::create([
+                'title' => $fields['title'], // This will now contain the business name
                 'description' => $fields['description'],
             ]);
 
@@ -100,11 +100,16 @@ class SubmissionController extends Controller
                     })->toArray()
                 );
             }
+                    $business_name = $request->input('business_name') ?? 'Default Business Name';
 
-            $evaluation = $user->evaluations()->create([
-                'submission_id' => $submission->id,
-            ]);
-
+                    $evaluation = Evaluation::create([
+                        'submission_id' => $submission->id,
+                        'user_id' => $user->id,
+                        'business_name' => $business_name,
+                        'id' => $submission->id, 
+                        'updated_at' => now(),
+                        'created_at' => now(),
+                    ]);
             DB::commit();
 
             return redirect()->route("submissions");
@@ -211,17 +216,14 @@ class SubmissionController extends Controller
 
     public function destroy(Request $request, $id) {
         $user = $request->user();
-    
+
         $submission = Submissions::where('id', $id)
             ->where('user_id', $user->id)
             ->first();
 
-
-
         if (!$submission) {
             return back()->with('error', 'Submission not found.');
         }
-
 
         $submission->delete();
 
