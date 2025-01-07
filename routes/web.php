@@ -41,7 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/evaluation', [EvaluationController::class, 'index'])->name('evaluations');
     Route::get('/evaluation/{id}', [EvaluationController::class, 'show'])->name('evaluation.chat');
     Route::post('/evaluation/{id}', [EvaluationController::class, 'store'])->name('evaluation.store');
-    Route::delete('/evaluation/{id}', [EvaluationController::class, 'destroy'])->name('evaluation.destroy');
+    Route::delete('/evaluation/{id}', [EvaluationController::class, 'destroy'])->name('evaluations.destroy');
 
     Route::get('/evaluations', [EvaluationController::class, 'index'])->name('evaluations.index');
     Route::post('/evaluations', [EvaluationController::class, 'store'])->name('evaluations.store');

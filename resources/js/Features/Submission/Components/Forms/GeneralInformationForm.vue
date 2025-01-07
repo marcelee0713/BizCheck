@@ -16,6 +16,7 @@ const model = defineModel<{
             v-model="model.form.title"
             type="text"
             id="title"
+            required
         />
         <PrimaryTextArea
             autofocus

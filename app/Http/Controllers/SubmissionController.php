@@ -51,8 +51,8 @@ class SubmissionController extends Controller
 
             $socialLinks = $socialLinks ?? [];
 
-            $submission = $user->submissions()->create([
-                'title' => $fields['title'],
+            $submission = Submissions::create([
+                'title' => $fields['title'], // This will now contain the business name
                 'description' => $fields['description'],
             ]);
 
@@ -104,11 +104,16 @@ class SubmissionController extends Controller
                     })->toArray()
                 );
             }
+                    $business_name = $request->input('business_name') ?? 'Default Business Name';
 
-            $evaluation = $user->evaluations()->create([
-                'submission_id' => $submission->id,
-            ]);
-
+                    $evaluation = Evaluation::create([
+                        'submission_id' => $submission->id,
+                        'user_id' => $user->id,
+                        'business_name' => $business_name,
+                        'id' => $submission->id, 
+                        'updated_at' => now(),
+                        'created_at' => now(),
+                    ]);
             DB::commit();
 
             return redirect()->route("submissions");
@@ -214,6 +219,33 @@ class SubmissionController extends Controller
 
     }
 
+    public function destroy(string $id)
+    {
+        try {
+            DB::beginTransaction();
+            
+            $submission = Submissions::findOrFail($id);
+            
+            // Delete related records first
+            $submission->metrics()->delete();
+            $submission->challenges()->delete();
+            $submission->competitors()->delete();
+            $submission->evaluations()->delete();
+            $submission->objectives()->delete();
+            $submission->insights()->delete();
+            
+            // Delete the submission
+            $submission->delete();
+            
+            DB::commit();
+            
+
+            return redirect()->route('submissions.index')->with('success', 'Submission deleted successfully');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Failed to delete submission']);
+        }
 
     public function destroy(Request $request, $id) {
         $user = $request->user();
@@ -230,6 +262,5 @@ class SubmissionController extends Controller
 
         return redirect()->back()->with('message', 'Submission deleted successfully!');
     }
-
-
 }
+

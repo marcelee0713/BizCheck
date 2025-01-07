@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Evaluation;
+
+
 class EvaluationController extends Controller
 {
     public function index(Request $request) {
@@ -77,6 +80,7 @@ class EvaluationController extends Controller
 
             $fields = [
                 'title' => $submission->title,
+                'business_name' => $submission->title ?: throw new \Exception('Business name is required'),
                 'description' => $submission->description,
                 'competitors' => $competitors,
                 'metrics' => $metrics,
@@ -107,9 +111,12 @@ class EvaluationController extends Controller
             return back()->withErrors(['error' => 'Something went wrong while doing this request. Please try again.']);
         }
     }
-
+    
     public function destroy($id)
     {
+
+        $evaluation = Evaluation::findOrFail($id);
+
         $evaluation = Evaluations::findOrFail($id);
 
         // Delete associated submission
@@ -119,7 +126,10 @@ class EvaluationController extends Controller
 
         // Delete the evaluation
         $evaluation->delete();
-
-        return redirect()->back();
+        
+        return redirect()->back()->with('success', 'Evaluation deleted successfully');
     }
 }
+
+
+
