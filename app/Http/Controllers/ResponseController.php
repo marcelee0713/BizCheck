@@ -37,29 +37,33 @@ class ResponseController extends Controller
 
             $evaluation->responses()->create(['message' => $fields['message'], 'sender' => 'user', 'created_at' => now()]);
 
-            $aiResponse = '';
+            // $aiResponse = '';
 
-            if (App::environment('production')) {
-                $aiService = new AIService();
+            // if (App::environment('production')) {
+            //     $aiService = new AIService();
 
-                $aiResponse = $aiService->send($history);
+            //     $aiResponse = $aiService->send($history);
 
-                $evaluation->responses()->create(['message' => $aiResponse, 'sender' => 'assistant']);
-            } elseif (App::environment('local')) {
-                sleep(2);
+            //     $evaluation->responses()->create(['message' => $aiResponse, 'sender' => 'assistant']);
+            // } elseif (App::environment('local')) {
+            //     sleep(2);
 
-                $aiResponse = 'Skrrt beep boop, why is the spaghetti sad? Yeet the cheese, zoom zoom,
-                oops I did it again. UwU vibes 3000, potato-powered chaos machine go brrr. Banana pants,
-                what even is gravity? Wibbly-wobbly, timey-wimey nonsense with a sprinkle of existential dread.';
+            //     $aiResponse = 'Skrrt beep boop, why is the spaghetti sad? Yeet the cheese, zoom zoom,
+            //     oops I did it again. UwU vibes 3000, potato-powered chaos machine go brrr. Banana pants,
+            //     what even is gravity? Wibbly-wobbly, timey-wimey nonsense with a sprinkle of existential dread.';
 
-                $evaluation->responses()->create([
-                    'message' => $aiResponse,
-                    'sender' => 'assistant',
-                    'created_at' => now()->addSeconds(10),
-                ]);
-            }
+            //     $evaluation->responses()->create([
+            //         'message' => $aiResponse,
+            //         'sender' => 'assistant',
+            //         'created_at' => now()->addSeconds(10),
+            //     ]);
+            // }
 
+            $aiService = new AIService();
 
+            $aiResponse = $aiService->send($history);
+
+            $evaluation->responses()->create(['message' => $aiResponse, 'sender' => 'assistant']);
 
             DB::commit();
 

@@ -133,10 +133,8 @@ class ProfileController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Something went wrong while creating your profile. Please try again.']);
+            return back()->withErrors(['error' => 'Something went wrong while updating your profile. Please try again.']);
         }
-
-        return back()->with('success', 'Profile updated successfully');
     }
 
     /**

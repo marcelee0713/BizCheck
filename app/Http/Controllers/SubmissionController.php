@@ -23,7 +23,7 @@ class SubmissionController extends Controller
     {
         $profile = $request->user()->profile;
 
-        $socialLinks = $profile->socialLinks()->get();
+        $socialLinks = $profile ? $profile->socialLinks()->get() : [];
 
         return Inertia::render("Submission/Create", [
             'profile' => $profile,
@@ -200,9 +200,11 @@ class SubmissionController extends Controller
 
             DB::commit();
 
-            return redirect()->route("evaluation",['id' => $evaluation->id]);
+            return redirect()->route("evaluation.chat",['id' => $evaluation->id]);
 
         } catch (\Exception $e) {
+            dd($e);
+            DB::rollBack();
             return back()->withErrors(['error' => 'Something went wrong while doing this request. Please try again.']);
         }
 
@@ -211,17 +213,14 @@ class SubmissionController extends Controller
 
     public function destroy(Request $request, $id) {
         $user = $request->user();
-    
+
         $submission = Submissions::where('id', $id)
             ->where('user_id', $user->id)
             ->first();
 
-
-
         if (!$submission) {
             return back()->with('error', 'Submission not found.');
         }
-
 
         $submission->delete();
 

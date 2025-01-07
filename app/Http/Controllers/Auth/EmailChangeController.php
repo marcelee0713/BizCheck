@@ -31,6 +31,28 @@ class EmailChangeController extends Controller
 
         $token = Str::random(60);
 
+        if ($user->email == $body['email']) {
+            return back()->with(['error' => 'You can not change your email when it is the same.']);
+        }
+
+        $existingToken = DB::table('change_email_tokens')
+            ->where('email', $body['email'])
+            ->first();
+
+        if ($existingToken) {
+            $createdAt = Carbon::parse($existingToken->created_at);
+            $expirationTime = $createdAt->addMinutes(60);
+
+            if (Carbon::now()->lessThan($expirationTime)) {
+                return back()->with(['error' => 'A verification request for this email already exists. Please wait for the current token to expire.']);
+            }
+
+            DB::table('change_email_tokens')
+                ->where('email', $body['email'])
+                ->delete();
+        }
+
+
         DB::table('change_email_tokens')->insert([
             'email' => $user->email,
             'token' => $token,

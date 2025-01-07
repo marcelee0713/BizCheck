@@ -46,7 +46,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/evaluations', [EvaluationController::class, 'index'])->name('evaluations.index');
     Route::post('/evaluations', [EvaluationController::class, 'store'])->name('evaluations.store');
 
-    Route::get('/chat/{id}', [ResponseController::class, 'store'])->name('chat');
+    Route::post('/chat/{id}', [ResponseController::class, 'store'])->name('chat');
 
     Route::inertia('/business', 'Business')->name('business');
 
