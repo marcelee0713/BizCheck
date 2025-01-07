@@ -213,22 +213,33 @@ class SubmissionController extends Controller
 
     }
 
+    public function destroy(string $id)
+    {
+        try {
+            DB::beginTransaction();
+            
+            $submission = Submissions::findOrFail($id);
+            
+            // Delete related records first
+            $submission->metrics()->delete();
+            $submission->challenges()->delete();
+            $submission->competitors()->delete();
+            $submission->evaluations()->delete();
+            $submission->objectives()->delete();
+            $submission->insights()->delete();
+            
+            // Delete the submission
+            $submission->delete();
+            
+            DB::commit();
+            
 
-    public function destroy(Request $request, $id) {
-        $user = $request->user();
-
-        $submission = Submissions::where('id', $id)
-            ->where('user_id', $user->id)
-            ->first();
-
-        if (!$submission) {
-            return back()->with('error', 'Submission not found.');
+            return redirect()->route('submissions.index')->with('success', 'Submission deleted successfully');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Failed to delete submission']);
         }
-
-        $submission->delete();
-
-        return redirect()->back()->with('message', 'Submission deleted successfully!');
     }
-
-
 }
+

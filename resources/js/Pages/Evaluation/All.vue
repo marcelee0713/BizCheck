@@ -56,15 +56,7 @@ const createEvaluation = () => {
 
 const deleteEvaluation = (id: string) => {
     if (confirm('Are you sure you want to delete this evaluation?')) {
-        useForm({}).delete(`/evaluation/${id}`, {
-            preserveScroll: true,
-            onSuccess: () => {
-                // Table will auto-refresh with updated data
-            },
-            onError: (errors: any) => {
-                console.error('Delete failed:', errors);
-            }
-        });
+        form.delete(route('evaluations.destroy', id));
     }
 };
 </script>

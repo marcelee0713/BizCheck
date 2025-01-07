@@ -9,6 +9,7 @@ use App\Services\AIService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
+use App\Models\Evaluation;
 
 class EvaluationController extends Controller
 {
@@ -110,14 +111,7 @@ class EvaluationController extends Controller
     
     public function destroy($id)
     {
-        $evaluation = Evaluations::findOrFail($id);
-
-        // Delete associated submission
-        if ($evaluation->submission) {
-            $evaluation->submission->delete();
-        }
-
-        // Delete the evaluation
+        $evaluation = Evaluation::findOrFail($id);
         $evaluation->delete();
         
         return redirect()->back()->with('success', 'Evaluation deleted successfully');
