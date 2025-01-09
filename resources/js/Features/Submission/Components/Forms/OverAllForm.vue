@@ -19,7 +19,6 @@ const props = defineProps<{
 
 const form = validateForm(props.form.data());
 const isLoading = ref(false);
-
 const onSaveAndEvaluate = () => {
     isLoading.value = true;
     router.post(
@@ -31,7 +30,7 @@ const onSaveAndEvaluate = () => {
         {
             onSuccess: (page: any) => {
                 const response = page.props as { evaluation: { id: number } };
-                router.visit(route('evaluation.chat', { id: response.evaluation.id }));
+                router.visit(route('submission.final'));
             },
             onFinish: () => {
                 isLoading.value = false;

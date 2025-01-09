@@ -45,8 +45,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('/business', 'Business')->name('business');
 
     Route::get('/evaluation/form', [EvaluationController::class, 'showForm'])->name('evaluation.form');
+    
+    Route::get('/submission', [SubmissionController::class, 'create'])->name('submission.create');
+
 }); 
 
 require __DIR__.'/auth.php';
+
 
 
