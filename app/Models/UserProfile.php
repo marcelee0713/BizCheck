@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 
 class UserProfile extends Model
 {
+    use CrudTrait;
     protected $keyType = 'string';
 
     public $incrementing = false;

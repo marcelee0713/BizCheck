@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Submissions extends Model
 {
+    use CrudTrait;
     protected $keyType = 'string';
 
     public $incrementing = false;
