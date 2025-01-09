@@ -18,7 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::post('/user-update', [UserController::class, 'update'])->name('user.update');
+    Route::post('/user-update', [UserController::class, 'update'])->name('update.user');
     Route::get("/change-email", [EmailChangeController::class, 'create'])->name('change_email.create');
     Route::post('/change-email', [EmailChangeController::class, 'store'])->name('change_email.store');
     Route::get('/change-email/{token}/{email}', [EmailChangeController::class, 'verify'])->name('change_email.verify');

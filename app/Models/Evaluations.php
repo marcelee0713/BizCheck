@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Evaluations extends Model
 {
+    use CrudTrait;
     use HasFactory;
     
     protected $keyType = 'string';

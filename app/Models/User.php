@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +13,7 @@ use Illuminate\Support\Str;
 
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
+    use CrudTrait;
     use HasFactory, Notifiable;
 
     protected $keyType = 'string';
