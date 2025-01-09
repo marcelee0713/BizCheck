@@ -49,8 +49,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/chat/{id}', [ResponseController::class, 'store'])->name('chat');
 
     Route::get('/evaluation/form', [EvaluationController::class, 'showForm'])->name('evaluation.form');
-});
+}); 
 
 require __DIR__.'/auth.php';
+
 
 
