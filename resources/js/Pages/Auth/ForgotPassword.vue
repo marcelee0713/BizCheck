@@ -2,7 +2,7 @@
 import GuestLayout from "@/Features/Auth/Layouts/GuestLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { Head, useForm } from "@inertiajs/vue3";
+import { useForm } from "@inertiajs/vue3";
 
 defineProps<{
     status?: string;

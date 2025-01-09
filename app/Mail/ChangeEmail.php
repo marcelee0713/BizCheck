@@ -8,30 +8,33 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ProfileUpdateVerification extends Mailable
+class ChangeEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $verificationCode;
+    public $user;
+    public $verificationLink;
 
-    public function __construct($verificationCode)
+    public function __construct($user, $verificationLink)
     {
-        $this->verificationCode = $verificationCode;
+        $this->user = $user;
+        $this->verificationLink = $verificationLink;
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Profile Update Verification Code',
+            subject: 'Email Change Verification',
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            view: 'emails.profile-update-verification',
+            view: 'emails.change_email',
             with: [
-                'code' => $this->verificationCode
+                'user' => $this->user,
+                'link' => $this->verificationLink,
             ]
         );
     }

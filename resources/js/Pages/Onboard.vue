@@ -36,7 +36,7 @@ const form = useForm<ProfileData>({
     target_audience: "",
     unique_selling_point: "",
     location: "",
-    phoneNumber: "",
+    phone_number: "",
     website_url: "",
     social_links: socialLinks,
     description: "",
@@ -140,11 +140,11 @@ const onSelectIndustries = (i: number) => {
                         class="flex-1"
                     />
                     <TextInput
-                        :err="form.errors.phoneNumber"
+                        :err="form.errors.phone_number"
                         :disabled="form.processing"
-                        v-model="form.phoneNumber"
+                        v-model="form.phone_number"
                         label="Phone Number"
-                        type="number"
+                        type="text"
                         id="phone_number"
                         class="flex-1"
                     />

@@ -51,7 +51,7 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="flex-1 flex flex-col gap-1 relative text-textColor">
-        <label class="font-bold text-sm">{{ label }}</label>
+        <div class="font-bold text-sm">{{ label }}</div>
 
         <div
             ref="wrapperRef"
@@ -89,6 +89,6 @@ onBeforeUnmount(() => {
             </ul>
         </Transition>
 
-        <div class="text-sm text-red-400" v-if="err">{{ err }}</div>
+        <div class="text-sm text-red-400">{{ err }}</div>
     </div>
 </template>
