@@ -239,15 +239,16 @@ class SubmissionController extends Controller
             
             DB::commit();
             
-
             return redirect()->route('submissions.index')->with('success', 'Submission deleted successfully');
             
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => 'Failed to delete submission']);
         }
+    } // Add this closing brace
 
-    public function destroy(Request $request, $id) {
+    public function destroySubmission(Request $request, $id) 
+    {
         $user = $request->user();
 
         $submission = Submissions::where('id', $id)
@@ -259,8 +260,8 @@ class SubmissionController extends Controller
         }
 
         $submission->delete();
-
-        return redirect()->back()->with('message', 'Submission deleted successfully!');
+        
+        return back()->with('success', 'Submission deleted successfully');
     }
-}
 
+}
